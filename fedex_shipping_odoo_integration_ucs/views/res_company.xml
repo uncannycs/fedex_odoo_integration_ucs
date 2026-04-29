@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_company_fdx_configuration" model="ir.ui.view">
+        <field name="name">FedEx Shipping Setup</field>
+        <field name="model">res.company</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[last()]" position="after">
+                <page string="FedEx Shipping Setup">
+                    <group>
+                        <field name="use_fdx_delivery"/>
+                    </group>
+                    <group invisible="use_fdx_delivery != True">
+                        <field name="fdx_api_endpoint" required="use_fdx_delivery == True"/>
+
+                        <field name="fdx_client_key" required="use_fdx_delivery == True"/>
+
+                        <field name="fdx_secret_key" required="use_fdx_delivery == True"/>
+
+                        <field name="fdx_acc_number" required="use_fdx_delivery == True"/>
+
+                        <field name="fdx_auth_token"/>
+                        <button type="object" class="fa fa-arrow-right oe_link" invisible="use_fdx_delivery != True"
+                                name="generate_fdx_auth_token" string="Access Token"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
