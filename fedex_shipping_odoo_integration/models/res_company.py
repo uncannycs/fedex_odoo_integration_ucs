@@ -6,30 +6,30 @@ from odoo.exceptions import ValidationError
 
 class ResCompany(models.Model):
     _inherit = "res.company"
-    use_fedex_shipping_provider = fields.Boolean(copy=False, string="Are You Use FedEx Shipping Provider.?",
-                                                 help="If use fedEx shipping provider than value set TRUE.",
+    use_fdx_delivery = fields.Boolean(copy=False, string="Enable FedEx Shipping",
+                                                 help="Activate to use FedEx as your shipping carrier.",
                                                  default=False)
-    fedex_api_url = fields.Char(string="FedEx API URL", copy=False, default="https://apis-sandbox.fedex.com")
-    fedex_client_id = fields.Char(string="FedEx Client ID", copy=False)
-    fedex_client_secret = fields.Char(string="FedEx Client Secret", copy=False)
-    fedex_account_number = fields.Char(copy=False, string='Account Number',
-                                       help="The account number sent to you by Fedex after registering for Web Services.")
-    fedex_access_token = fields.Char(string="FedEx Access Token", copy=False)
+    fdx_api_endpoint = fields.Char(string="FedEx API Endpoint", copy=False, default="https://apis-sandbox.fedex.com")
+    fdx_client_key = fields.Char(string="FedEx API Key", copy=False)
+    fdx_secret_key = fields.Char(string="FedEx API Secret", copy=False)
+    fdx_acc_number = fields.Char(copy=False, string='FedEx Account No.',
+                                       help="Your FedEx account number obtained during FedEx developer registration.")
+    fdx_auth_token = fields.Char(string="FedEx Auth Token", copy=False)
 
-    def auto_generate_fedex_access_token(self):
-        for company_id in self.search([('use_fedex_shipping_provider', '!=', False)]):
-            company_id.generate_fedex_access_token()
+    def auto_generate_fdx_auth_token(self):
+        for company_id in self.search([('use_fdx_delivery', '!=', False)]):
+            company_id.generate_fdx_auth_token()
 
-    def generate_fedex_access_token(self):
+    def generate_fdx_auth_token(self):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        api_url = "%s/oauth/token" % (self.fedex_api_url)
-        if not self.fedex_client_id or not self.fedex_client_secret:
+        api_url = "%s/oauth/token" % (self.fdx_api_endpoint)
+        if not self.fdx_client_key or not self.fdx_secret_key:
             raise ValidationError("Please enter correct credentials")
         data = {
-            'client_id': self.fedex_client_id,
-            'client_secret': self.fedex_client_secret,
+            'client_id': self.fdx_client_key,
+            'client_secret': self.fdx_secret_key,
             'grant_type': 'client_credentials',
         }
         try:
@@ -37,7 +37,7 @@ class ResCompany(models.Model):
             if response_data.status_code in [200, 201]:
                 response_data = response_data.json()
                 if response_data.get('access_token'):
-                    self.fedex_access_token = response_data.get('access_token')
+                    self.fdx_auth_token = response_data.get('access_token')
                     return {
                         'effect': {
                             'fadeout': 'slow',

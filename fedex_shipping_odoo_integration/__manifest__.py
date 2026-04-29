@@ -8,7 +8,7 @@
 #
 ##############################################################################
 {
-    "name": "FedEx Shipping Odoo Integration",
+    "name": "FedEx Shipping Odoo Integration UCS",
     "category": "Website",
     "version": "17.0.1.0.1",
     "summary": """ """,
@@ -18,6 +18,7 @@
             "data/ir_cron.xml",
             "data/delivery_fedex.xml",
             "views/res_company.xml",
+            
             "views/delivery_carrier_view.xml",
             "views/sale_view.xml",
             ],
@@ -30,8 +31,8 @@
     "installable": True,
     "application": True,
     "auto_install": False,
-    "price": "99",
-    "currency": "EUR",
+    "price": 65,
+    "currency": 'USD',
     "license": "OPL-1",
 
 }

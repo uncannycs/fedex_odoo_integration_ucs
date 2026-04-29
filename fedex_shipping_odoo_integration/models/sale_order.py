@@ -8,26 +8,26 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    fedex_third_party_account_number_sale_order = fields.Char(
-        copy=False, string='FexEx Third-Party Account Number', help="Please Enter the Third Party account number ")
+    fdx_tp_account_number = fields.Char(
+        copy=False, string='FedEx Third-Party Billing Account', help="Enter the third-party account number for FedEx billing.")
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    fedex_third_party_account_number_sale_order = fields.Char(copy=False, string='FexEx Third-Party Account Number',
-                                                              help="Please Enter the Third Party account number ")
-    fedex_bill_by_third_party_sale_order = fields.Boolean(string="FedEx Third Party Payment", copy=False, default=False,
-                                                          help="when this fields is true,then we can visible fedex_third party account number")
+    fdx_tp_account_number = fields.Char(copy=False, string='FedEx Third-Party Billing Account',
+                                                               help="Enter the third-party account number for FedEx billing.")
+    fdx_tp_billing = fields.Boolean(string="FedEx Third-Party Billing", copy=False, default=False,
+                                                          help="Enable this to allow third-party billing for FedEx shipments.")
 
-    @api.onchange('partner_id', 'fedex_third_party_account_number_sale_order', 'fedex_bill_by_third_party_sale_order')
-    def onchange_fedex_third_party(self):
-        if self.fedex_bill_by_third_party_sale_order:
-            if not self.fedex_third_party_account_number_sale_order and self.partner_id.fedex_third_party_account_number_sale_order:
-                self.fedex_third_party_account_number_sale_order = self.partner_id.fedex_third_party_account_number_sale_order
+    @api.onchange('partner_id', 'fdx_tp_account_number', 'fdx_tp_billing')
+    def onchange_fdx_third_party(self):
+        if self.fdx_tp_billing:
+            if not self.fdx_tp_account_number and self.partner_id.fdx_tp_account_number:
+                self.fdx_tp_account_number = self.partner_id.fdx_tp_account_number
 
-            if self.fedex_third_party_account_number_sale_order != self.partner_id.fedex_third_party_account_number_sale_order:
-                self.partner_id.fedex_third_party_account_number_sale_order = self.fedex_third_party_account_number_sale_order
+            if self.fdx_tp_account_number != self.partner_id.fdx_tp_account_number:
+                self.partner_id.fdx_tp_account_number = self.fdx_tp_account_number
 
-        if not self.fedex_bill_by_third_party_sale_order:
-            self.fedex_third_party_account_number_sale_order = ''
+        if not self.fdx_tp_billing:
+            self.fdx_tp_account_number = ''

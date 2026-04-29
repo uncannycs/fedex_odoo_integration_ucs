@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="fedex_form_view_delivery_carrier" model="ir.ui.view">
-        <field name="name">delivery.carrier.fedex.view</field>
+    <record id="fdx_form_view_delivery_carrier" model="ir.ui.view">
+        <field name="name">delivery.carrier.fdx.view</field>
         <field name="model">delivery.carrier</field>
         <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='destination']" position='before'>
-                <page string="Configuration" name="fedex_configuration" invisible="delivery_type != 'fedex_shipping_provider'">
+                <page string="FedEx Settings" name="fdx_configuration" invisible="delivery_type != 'fdx_delivery'">
                     <group>
                         <group>
-                            <field name="company_id" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="fedex_service_type" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="fedex_pickup_type" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="fedex_default_product_packaging_id" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="fedex_request_type" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="fedex_payment_type" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="fedex_weight_uom" required="'delivery_type = fedex_shipping_provider'"/>
+                            <field name="company_id" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_shipping_service" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_pickup_method" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_default_package_type_id" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_rate_request_type" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_billing_type" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_wt_uom" required="'delivery_type = fdx_delivery'"/>
                         </group>
                         <group>
-                            <field name="fedex_shipping_label_stock_type" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="fedex_shipping_label_file_type" required="'delivery_type = fedex_shipping_provider'"/>
-                            <field name="is_cod"/>
-                            <field name="is_signature_required"/>
-                            <field name="signature_options" required="'is_signature_required = True'"
-                                   invisible="is_signature_required != 'False'"/>
-                            <field name="insured_request"/>
-                            <field name="fedex_onerate"/>
+                            <field name="fdx_label_stock" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_label_format" required="'delivery_type = fdx_delivery'"/>
+                            <field name="fdx_cod"/>
+                            <field name="fdx_require_signature"/>
+                            <field name="fdx_signature_type" required="'fdx_require_signature = True'"
+                                   invisible="fdx_require_signature != 'False'"/>
+                            <field name="fdx_insurance"/>
+                            <field name="fdx_use_onerate"/>
                         </group>
                     </group>
                 </page>

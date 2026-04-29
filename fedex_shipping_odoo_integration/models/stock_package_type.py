@@ -5,4 +5,4 @@ from odoo import fields, models, api
 class StockPackageType(models.Model):
     _inherit = 'stock.package.type'
 
-    package_carrier_type = fields.Selection(selection=[('fedex_shipping_provider', 'Fedex')])
+    package_carrier_type = fields.Selection(selection=[('fdx_delivery', 'FedEx Shipping')])
